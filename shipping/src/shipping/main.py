@@ -26,7 +26,7 @@ def get_input_path() -> Path:
     cwd_path = Path("input.txt")
     if cwd_path.exists():
         return cwd_path
-    
+
     script_path = _HERE / "input.txt"
     return script_path
 
@@ -46,6 +46,7 @@ def main():
     std_out_writer = STDOUTWriter()
     orders_writer = OrdersWriter(orders_after_rules, invalid_orders)
     orders_writer.write_orders_to_stdout(std_out_writer)
+
 
 if __name__ == "__main__":
     main()

@@ -23,9 +23,6 @@ ruff = "^0.0.282"
 
 [tool.ruff]
 line-length = 88  # Match black's default line length
-select = ["F", "E", "I"]  # Enable specific rules (e.g., flake8, import rules)
-ignore = ["W503"]  # Ignore specific warnings
-fixable = ["F401", "F841", "I001"]  # Allow ruff to automatically fix unused imports, variables, and import sorting
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

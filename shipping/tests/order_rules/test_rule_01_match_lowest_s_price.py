@@ -3,7 +3,11 @@ from datetime import date
 import pytest
 
 from shipping.modules.order import Order
-from shipping.modules.shipping_options import ShippingOption, ShippingOptions, ShippingOptionsReader
+from shipping.modules.shipping_options import (
+    ShippingOption,
+    ShippingOptions,
+    ShippingOptionsReader,
+)
 from shipping.order_rules import rule_01_match_the_lowest_S_price_for_each_order
 
 

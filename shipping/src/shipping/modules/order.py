@@ -1,7 +1,3 @@
-
-
-
-
 from dataclasses import dataclass
 from datetime import date
 from .shipping_options import ShippingOptions
@@ -26,7 +22,9 @@ class Order:
     reduced_price: float
     item_number: int
 
-    def __init__(self, order_date: date, provider: str, package_size: str, item_number: int) -> None:
+    def __init__(
+        self, order_date: date, provider: str, package_size: str, item_number: int
+    ) -> None:
         """Initializes an Order and computes its initial price.
 
         Args:
@@ -45,7 +43,7 @@ class Order:
         self.item_number = item_number
         self.price = None
         self.reduced_price = None
-    
+
     def init_price(self, shipping_options: ShippingOptions) -> float:
         """Looks up the base price for this order from the shipping options.
 
@@ -56,10 +54,14 @@ class Order:
             ValueError: If no matching shipping option is found.
         """
         for option in shipping_options.items:
-            if option.Provider == self.provider and option.Package_Size == self.package_size:
+            if (
+                option.Provider == self.provider
+                and option.Package_Size == self.package_size
+            ):
                 self.price = option.Price
                 self.reduced_price = option.Price
-    
+
+
 @dataclass
 class InvalidOrder:
     """Represents an order line that could not be parsed.
@@ -71,4 +73,3 @@ class InvalidOrder:
 
     line: str
     item_number: int
-

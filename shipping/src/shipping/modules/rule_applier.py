@@ -1,8 +1,7 @@
-
-
 from typing import Iterable
 from .order import Order
 from .shipping_options import ShippingOptions
+
 
 class RuleApplier:
     """Applies a sequence of pricing rules to a collection of orders.
@@ -43,4 +42,3 @@ class RuleApplier:
             orders_current = rule(orders_current, shipping_options)
             print(orders_current)
         return orders_current
-    

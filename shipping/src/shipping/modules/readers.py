@@ -1,12 +1,9 @@
-
-
-
-
 from typing import Iterable
 from datetime import date
 from .shipping_options import ShippingOptions
 from .order import Order
 from .order import InvalidOrder
+
 
 class FileReader:
     """Reads raw lines from a text file.
@@ -55,7 +52,9 @@ class OrdersReader:
         """
         self._shipping_options = shipping_options
 
-    def read_orders_from_file(self, file_reader: FileReader) -> tuple[list[tuple[Order, int]], list[tuple[str, int]]]:
+    def read_orders_from_file(
+        self, file_reader: FileReader
+    ) -> tuple[list[tuple[Order, int]], list[tuple[str, int]]]:
         """Reads orders from a file and returns parsed and invalid orders.
 
         Args:
@@ -70,7 +69,9 @@ class OrdersReader:
         parsed_orders, invalid_orders = self.parse_from_lines(lines)
         return parsed_orders, invalid_orders
 
-    def parse_from_lines(self, lines: Iterable[str]) -> tuple[Iterable[Order], Iterable[InvalidOrder]]:
+    def parse_from_lines(
+        self, lines: Iterable[str]
+    ) -> tuple[Iterable[Order], Iterable[InvalidOrder]]:
         """Parses order lines and separates valid from invalid orders.
 
         Each line is expected to contain space-separated values: date,
@@ -100,13 +101,19 @@ class OrdersReader:
                     self._shipping_options.validate_package_size(package_size)
 
                     # Create a Order instance
-                    order_shipping = Order(order_date=date_obj, provider=provider, package_size=package_size, item_number=item_number)
+                    order_shipping = Order(
+                        order_date=date_obj,
+                        provider=provider,
+                        package_size=package_size,
+                        item_number=item_number,
+                    )
                     order_shipping.init_price(self._shipping_options)
 
                     # Append the instance to the list
                     parsed_orders.append(order_shipping)
             except (ValueError, IndexError):
-                invalid_orders.append(InvalidOrder(line=line.strip(), item_number=item_number))
+                invalid_orders.append(
+                    InvalidOrder(line=line.strip(), item_number=item_number)
+                )
 
         return parsed_orders, invalid_orders
-    

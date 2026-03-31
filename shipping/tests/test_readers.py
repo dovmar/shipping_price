@@ -41,7 +41,9 @@ def test_read_orders_from_file_uses_file_reader(tmp_path: Path) -> None:
     shipping_options = ShippingOptions(ShippingOptionsReader().load_hardcoded_options())
     orders_reader = OrdersReader(shipping_options)
 
-    parsed_orders, invalid_orders = orders_reader.read_orders_from_file(FileReader(str(sample)))
+    parsed_orders, invalid_orders = orders_reader.read_orders_from_file(
+        FileReader(str(sample))
+    )
 
     assert len(parsed_orders) == 1
     assert len(invalid_orders) == 1

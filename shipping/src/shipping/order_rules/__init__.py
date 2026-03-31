@@ -11,13 +11,17 @@ rules = []
 _seen = set()
 
 # Dynamically import all modules in alphanumerical order
-for _, modname, _ in sorted(pkgutil.iter_modules(package_path), key=lambda item: item[1]):
+for _, modname, _ in sorted(
+    pkgutil.iter_modules(package_path), key=lambda item: item[1]
+):
     module = importlib.import_module(f".{modname}", package=__name__)
 
     # Use module __all__ if present, otherwise all public names
-    names = module.__all__ if hasattr(module, "__all__") else [
-        name for name in dir(module) if not name.startswith("_")
-    ]
+    names = (
+        module.__all__
+        if hasattr(module, "__all__")
+        else [name for name in dir(module) if not name.startswith("_")]
+    )
 
     for name in sorted(names):
         obj = getattr(module, name)

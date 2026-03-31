@@ -1,9 +1,6 @@
-
-
-
-
 from dataclasses import dataclass
 from typing import Iterable
+
 
 @dataclass
 class ShippingOption:
@@ -22,12 +19,12 @@ class ShippingOption:
 
 class ShippingOptionsReader:
     def __init__(self) -> None:
-            pass
+        pass
 
     def load_hardcoded_options(self) -> Iterable[ShippingOption]:
         """Populates the hardcoded shipping options and cached lookup sets."""
 
-        return  [
+        return [
             ShippingOption(Provider="LP", Package_Size="S", Price=1.50),
             ShippingOption(Provider="LP", Package_Size="M", Price=4.90),
             ShippingOption(Provider="LP", Package_Size="L", Price=6.90),
@@ -35,6 +32,7 @@ class ShippingOptionsReader:
             ShippingOption(Provider="MR", Package_Size="M", Price=3.00),
             ShippingOption(Provider="MR", Package_Size="L", Price=4.00),
         ]
+
 
 class ShippingOptions:
     """Manages the available shipping options from all providers.
@@ -57,9 +55,13 @@ class ShippingOptions:
         """
         """Initializes ShippingOptions with the given shipping options."""
         self.items: list[ShippingOption] = list(items)
-        self._distinct_providers: frozenset[str] = frozenset(option.Provider for option in self.items)
-        self._distinct_package_sizes: frozenset[str] = frozenset(option.Package_Size for option in self.items)
-        
+        self._distinct_providers: frozenset[str] = frozenset(
+            option.Provider for option in self.items
+        )
+        self._distinct_package_sizes: frozenset[str] = frozenset(
+            option.Package_Size for option in self.items
+        )
+
     def validate_provider(self, provider: str) -> bool:
         """Validates that the given provider exists in the available options.
 
@@ -74,7 +76,7 @@ class ShippingOptions:
         """
         if provider not in self._distinct_providers:
             raise ValueError(f"Invalid provider: {provider}")
-        
+
     def validate_package_size(self, package_size: str) -> bool:
         """Validates that the given package size exists in the available options.
 
@@ -89,4 +91,3 @@ class ShippingOptions:
         """
         if package_size not in self._distinct_package_sizes:
             raise ValueError(f"Invalid package size: {package_size}")
-

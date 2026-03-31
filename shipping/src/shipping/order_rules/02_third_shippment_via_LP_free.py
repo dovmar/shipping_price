@@ -4,6 +4,7 @@ from modules.shipping_options import ShippingOptions
 
 __all__ = ["rule_02_third_shippment_via_LP_free"]
 
+
 def _get_month_key(order: Order) -> str:
     """Builds the year-month key used for monthly LP shipment tracking.
 

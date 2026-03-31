@@ -69,5 +69,3 @@ def rule_01_match_the_lowest_S_price_for_each_order(
         updated_orders.append(_apply_lowest_s_price(order, lowest_s_price))
 
     return updated_orders
-
-

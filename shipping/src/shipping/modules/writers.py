@@ -1,8 +1,8 @@
-
 import math
 from typing import Iterable, Union
 from .order import Order
 from .order import InvalidOrder
+
 
 class STDOUTWriter:
     """A writer class that outputs data to standard output (stdout).
@@ -28,6 +28,7 @@ class STDOUTWriter:
         """
         print(line)
 
+
 class OrdersWriter:
     """Formats and writes processed orders to standard output.
 
@@ -36,7 +37,9 @@ class OrdersWriter:
         _orders_original (Iterable[Order]): The original unmodified orders.
     """
 
-    def __init__(self, orders: Iterable[Order], invalid_orders: Iterable[InvalidOrder]) -> None:
+    def __init__(
+        self, orders: Iterable[Order], invalid_orders: Iterable[InvalidOrder]
+    ) -> None:
         """Initializes the CustomerOrdersWriter.
 
         Args:
@@ -67,7 +70,7 @@ class OrdersWriter:
             discount = item.price - item.reduced_price
             discount_str = "-" if math.isclose(discount, 0.0) else f"{discount:.2f}"
             return f"{item.order_date} {item.package_size} {item.provider} {item.reduced_price:.2f} {discount_str}"
-        
+
         else:
             raise ValueError("Invalid order type for result line formatting.")
 
@@ -89,5 +92,3 @@ class OrdersWriter:
         for item in merged_orders:
             result = self._build_result_line(item)
             stdout_writer.write_to_stdout(result)
-
-
