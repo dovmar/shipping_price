@@ -1,0 +1,26 @@
+[project]
+name = "shipping"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Dovydas Martinkus",email = "DOVMA@danskebank.lt"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+]
+
+[tool.poetry]
+packages = [{include = "shipping", from = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+
+[tool.poetry.group.dev.dependencies"]
+pytest = "^6.0"
+black = "^22.0"
+ruff = "^0.0.282"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
