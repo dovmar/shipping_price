@@ -32,10 +32,11 @@ def _should_make_lp_shipment_free(
             already been applied.
 
     Returns:
-        bool: True if the order is the third LP shipment for its month and the
-            free shipment has not already been applied for that month.
+        bool: True if the order is an LP shipment of size L, is the third such
+            shipment for its month, and the free shipment has not already been
+            applied for that month.
     """
-    if order.provider != "LP":
+    if order.provider != "LP" or order.package_size != "L":
         return False
 
     lp_count_by_month[month_key] = lp_count_by_month.get(month_key, 0) + 1
@@ -46,10 +47,11 @@ def rule_02_third_shippment_via_LP_free(
     orders: Iterable[Order],
     shipping_options: ShippingOptions,
 ) -> Iterable[Order]:
-    """Makes the third LP shipment in each calendar month free of charge.
+    """Makes the third LP shipment of size L in each calendar month free.
 
-    Only the first occurrence of the third LP shipment per month is made free.
-    Subsequent LP shipments beyond the third in the same month are not affected.
+    Only the first occurrence of the third LP L-sized shipment per month is
+    made free. Subsequent LP L-sized shipments beyond the third in the same
+    month are not affected.
 
     Args:
         orders (Iterable[Order]): The orders in their current state to be updated.
@@ -57,8 +59,8 @@ def rule_02_third_shippment_via_LP_free(
             this rule, present for a consistent rule interface).
 
     Returns:
-        Iterable[Order]: The updated orders with the third LP shipment per month
-            set to a price of 0.00.
+        Iterable[Order]: The updated orders with the third LP L-sized shipment
+            per month set to a price of 0.00.
     """
     lp_count_by_month: dict[str, int] = {}
     free_applied_by_month: set[str] = set()

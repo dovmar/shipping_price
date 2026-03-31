@@ -59,7 +59,7 @@ class OrdersReader:
         """Reads orders from a file and returns parsed and invalid orders.
 
         Args:
-            filename (str): The path to the file containing order data.
+            file_reader (FileReader): The FileReader instance to read order data from.
 
         Returns:
             tuple[list[Order], list[InvalidOrder]]: A tuple containing a list of
@@ -96,13 +96,16 @@ class OrdersReader:
                     # Split the line into components
                     date_str, package_size, provider = line.split()
                     date_obj = date.fromisoformat(date_str)
+                    self._shipping_options.validate_provider(provider)
+                    self._shipping_options.validate_package_size(package_size)
 
                     # Create a Order instance
-                    order_shipping = Order(order_date=date_obj, provider=provider, package_size=package_size, item_number=item_number, shipping_options=self._shipping_options)
+                    order_shipping = Order(order_date=date_obj, provider=provider, package_size=package_size, item_number=item_number)
+                    order_shipping.init_price(self._shipping_options)
 
                     # Append the instance to the list
                     parsed_orders.append(order_shipping)
-            except ValueError:
+            except (ValueError, IndexError):
                 invalid_orders.append(InvalidOrder(line=line.strip(), item_number=item_number))
 
         return parsed_orders, invalid_orders

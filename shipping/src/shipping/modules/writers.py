@@ -1,4 +1,5 @@
 
+import math
 from typing import Iterable, Union
 from .order import Order
 from .order import InvalidOrder
@@ -26,30 +27,7 @@ class STDOUTWriter:
             line (str): The text to write to stdout.
         """
         print(line)
-        
-class STDOUTWriter:
-    """A writer class that outputs data to standard output (stdout).
 
-    This class provides functionality to write lines of text directly
-    to the standard output stream.
-
-    Example:
-        >>> writer = STDOUTWriter()
-        >>> writer.write_to_stdout("Hello, World!")
-        Hello, World!
-    """
-
-    def __init__(self) -> None:
-        """Initializes the STDOUTWriter."""
-        pass
-
-    def write_to_stdout(self, line: str) -> None:
-        """Writes a line of text to standard output.
-
-        Args:
-            line (str): The text to write to stdout.
-        """
-        print(line)
 class OrdersWriter:
     """Formats and writes processed orders to standard output.
 
@@ -87,7 +65,8 @@ class OrdersWriter:
 
         elif isinstance(item, Order):
             discount = item.price - item.reduced_price
-            return f"{item.order_date} {item.package_size} {item.provider} {item.price:.2f} {discount:.2f}"
+            discount_str = "-" if math.isclose(discount, 0.0) else f"{discount:.2f}"
+            return f"{item.order_date} {item.package_size} {item.provider} {item.reduced_price:.2f} {discount_str}"
         
         else:
             raise ValueError("Invalid order type for result line formatting.")

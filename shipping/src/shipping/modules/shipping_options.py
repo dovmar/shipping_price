@@ -20,16 +20,14 @@ class ShippingOption:
     Price: float
 
 
-class ShippingOptions:
-    """Manages the available shipping options from all providers.
+class ShippingOptionsReader:
+    def __init__(self) -> None:
+            pass
 
-    Attributes:
-        items (Iterable[ShippingOption]): The collection of shipping options.
-    """
-
-    def hardcoded_options(self) -> None:
+    def load_hardcoded_options(self) -> Iterable[ShippingOption]:
         """Populates the hardcoded shipping options and cached lookup sets."""
-        self.items = [
+
+        return  [
             ShippingOption(Provider="LP", Package_Size="S", Price=1.50),
             ShippingOption(Provider="LP", Package_Size="M", Price=4.90),
             ShippingOption(Provider="LP", Package_Size="L", Price=6.90),
@@ -37,15 +35,31 @@ class ShippingOptions:
             ShippingOption(Provider="MR", Package_Size="M", Price=3.00),
             ShippingOption(Provider="MR", Package_Size="L", Price=4.00),
         ]
-        self._distinct_providers = frozenset(option.Provider for option in self.items)
-        self._distinct_package_sizes = frozenset(option.Package_Size for option in self.items)
 
-    def __init__(self) -> None:
-        """Initializes ShippingOptions with hardcoded shipping options."""
-        self.items: Iterable[ShippingOption] = None
-        self._distinct_providers: frozenset[str] = None
-        self._distinct_package_sizes : frozenset[str] = None
-    
+class ShippingOptions:
+    """Manages the available shipping options from all providers.
+
+    Attributes:
+        items (Iterable[ShippingOption]): The collection of shipping options.
+    """
+
+    def __init__(self, items: Iterable[ShippingOption]) -> None:
+        """
+        Initialize a ShippingOptions instance.
+
+        Args:
+            items: An iterable collection of ShippingOption objects to be managed.
+
+        Attributes:
+            items: Stores the collection of shipping options provided.
+            _distinct_providers: Cached set of unique provider names (lazily initialized).
+            _distinct_package_sizes: Cached set of unique package sizes (lazily initialized).
+        """
+        """Initializes ShippingOptions with the given shipping options."""
+        self.items: list[ShippingOption] = list(items)
+        self._distinct_providers: frozenset[str] = frozenset(option.Provider for option in self.items)
+        self._distinct_package_sizes: frozenset[str] = frozenset(option.Package_Size for option in self.items)
+        
     def validate_provider(self, provider: str) -> bool:
         """Validates that the given provider exists in the available options.
 
@@ -60,8 +74,7 @@ class ShippingOptions:
         """
         if provider not in self._distinct_providers:
             raise ValueError(f"Invalid provider: {provider}")
-        return True
-
+        
     def validate_package_size(self, package_size: str) -> bool:
         """Validates that the given package size exists in the available options.
 
@@ -76,5 +89,4 @@ class ShippingOptions:
         """
         if package_size not in self._distinct_package_sizes:
             raise ValueError(f"Invalid package size: {package_size}")
-        return True
 

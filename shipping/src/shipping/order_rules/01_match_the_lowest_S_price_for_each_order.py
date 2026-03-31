@@ -19,13 +19,13 @@ def _get_lowest_s_price(shipping_options: ShippingOptions) -> float:
     """
     lowest_s_option = min(
         (option for option in shipping_options.items if option.Package_Size == "S"),
-        key=lambda option: option.reduced_price,
+        key=lambda option: option.Price,
         default=None,
     )
     if lowest_s_option is None:
         raise ValueError("No shipping option found for package_size=S")
 
-    return lowest_s_option.reduced_price
+    return lowest_s_option.Price
 
 
 def _apply_lowest_s_price(order: Order, lowest_s_price: float) -> Order:

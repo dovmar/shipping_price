@@ -39,6 +39,8 @@ class RuleApplier:
         """
         orders_current = orders.copy()
         for rule in self.rules:
+            print(f"Applying rule: {rule.__name__}")
             orders_current = rule(orders_current, shipping_options)
+            print(orders_current)
         return orders_current
     
