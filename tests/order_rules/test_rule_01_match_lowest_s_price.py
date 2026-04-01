@@ -3,7 +3,9 @@ from typing import Callable
 
 from shipping_price.modules.order import Order
 from shipping_price.modules.shipping_options import ShippingOptions
-from shipping_price.modules.order_rules import rule_01_match_the_lowest_S_price_for_each_order
+from shipping_price.modules.order_rules import (  # type: ignore[attr-defined]
+    rule_01_match_the_lowest_S_price_for_each_order,
+)
 
 
 def test_rule_01_sets_s_orders_to_lowest_s_price(

@@ -20,8 +20,8 @@ class Order:
     order_date: date
     provider: str
     package_size: str
-    price: float
-    reduced_price: float
+    price: float | None
+    reduced_price: float | None
     item_number: int
 
     def __init__(

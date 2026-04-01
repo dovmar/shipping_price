@@ -3,7 +3,9 @@ from typing import Callable
 
 from shipping_price.modules.order import Order
 from shipping_price.modules.shipping_options import ShippingOptions
-from shipping_price.modules.order_rules import rule_02_third_shippment_via_LP_free
+from shipping_price.modules.order_rules import (  # type: ignore[attr-defined]
+    rule_02_third_shippment_via_LP_free,
+)
 
 
 def test_rule_02_only_third_lp_l_in_month_is_free(

@@ -1,11 +1,13 @@
 import logging
-from typing import Iterable
+from typing import Callable, Iterable
 
 from .order import Order
 from .shipping_options import ShippingOptions
 
 
 LOGGER = logging.getLogger("shipping_price.modules.rule_applier")
+
+Rule = Callable[[Iterable[Order], ShippingOptions], Iterable[Order]]
 
 
 class RuleApplier:
@@ -15,7 +17,7 @@ class RuleApplier:
         rules (Iterable): An ordered collection of rule callables to apply.
     """
 
-    def __init__(self, rules: Iterable) -> None:
+    def __init__(self, rules: Iterable[Rule]) -> None:
         """Initializes the RuleApplier with the given rules.
 
         Args:
@@ -29,7 +31,7 @@ class RuleApplier:
         self,
         orders: Iterable[Order],
         shipping_options: ShippingOptions,
-    ) -> Iterable[Order]:
+    ) -> list[Order]:
         """Applies all rules sequentially to the current orders.
 
         Args:
@@ -38,10 +40,10 @@ class RuleApplier:
                 passed to each rule.
 
         Returns:
-            Iterable[Order]: The orders after all rules have been applied.
+            list[Order]: The orders after all rules have been applied.
         """
-        orders_current = orders.copy()
+        orders_current = list(orders)
         for rule in self.rules:
             LOGGER.info("Applying rule: %s", rule.__name__)
-            orders_current = rule(orders_current, shipping_options)
+            orders_current = list(rule(orders_current, shipping_options))
         return orders_current

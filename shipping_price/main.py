@@ -2,16 +2,15 @@
 # Pytest + coverage
 
 import argparse
-import logging
 from logging import getLogger
 from pathlib import Path
 
 from modules.logging_config import APP_LOGGER_NAME, configure_logging
+from modules.order_rules import rules
 from modules.readers import FileReader, OrdersReader
 from modules.rule_applier import RuleApplier
 from modules.shipping_options import ShippingOptions, ShippingOptionsReader
 from modules.writers import OrdersWriter, STDOUTWriter
-from modules.order_rules import rules
 
 _HERE = Path(__file__).parent
 LOGGER = getLogger(f"{APP_LOGGER_NAME}.main")
@@ -63,7 +62,7 @@ def main() -> None:
 
     input_path = get_input_path(args.input_file)
     LOGGER.info("Using input file: %s", input_path)
-    file_reader = FileReader(input_path)
+    file_reader = FileReader(str(input_path))
     customer_orders_reader = OrdersReader(shipping_options)
     orders, invalid_orders = customer_orders_reader.read_orders_from_file(file_reader)
     LOGGER.info(

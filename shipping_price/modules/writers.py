@@ -1,7 +1,9 @@
 import math
-from typing import Iterable, Union
+from typing import Iterable
 
 from .order import InvalidOrder, Order
+
+OrderLike = Order | InvalidOrder
 
 
 class STDOUTWriter:
@@ -49,7 +51,7 @@ class OrdersWriter:
         self._orders = orders
         self._invalid_orders = invalid_orders
 
-    def _build_result_line(self, item: Union[InvalidOrder, Order]) -> str:
+    def _build_result_line(self, item: OrderLike) -> str:
         """Formats a single order or invalid order as an output line.
 
         Args:
@@ -66,6 +68,8 @@ class OrdersWriter:
             return f"{item.line} Ignored"
 
         elif isinstance(item, Order):
+            if item.price is None or item.reduced_price is None:
+                raise ValueError("Order must be price-initialized before writing.")
             discount = item.price - item.reduced_price
             discount_str = "-" if math.isclose(discount, 0.0) else f"{discount:.2f}"
             return (
@@ -76,14 +80,14 @@ class OrdersWriter:
         else:
             raise ValueError("Invalid order type for result line formatting.")
 
-    def _merge_orders(self) -> Iterable[str]:
+    def _merge_orders(self) -> list[OrderLike]:
         """Merges valid and invalid orders into a single sorted collection.
 
         Returns:
-            Iterable[Order | InvalidOrder]: Valid and invalid orders sorted by
+            list[Order | InvalidOrder]: Valid and invalid orders sorted by
                 their original item number.
         """
-        combined = []
+        combined: list[OrderLike] = []
         for order in self._orders:
             combined.append(order)
 

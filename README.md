@@ -17,10 +17,12 @@ python -m pip install uv
 ## Run
 
 ```bash
-uv run python shipping_price/main.py
+cd shipping_price
+uv run python main.py
 
 # Or pass an explicit input file
-uv run python shipping_price/main.py path/to/input.txt
+cd shipping_price
+uv run python main.py path/to/input.txt
 ```
 
 ## Tests

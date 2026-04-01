@@ -60,7 +60,7 @@ class ShippingOptions:
             option.Package_Size for option in self.items
         )
 
-    def validate_provider(self, provider: str) -> bool:
+    def validate_provider(self, provider: str) -> None:
         """Validates that the given provider exists in the available options.
 
         Args:
@@ -75,7 +75,7 @@ class ShippingOptions:
         if provider not in self._distinct_providers:
             raise ValueError(f"Invalid provider: {provider}")
 
-    def validate_package_size(self, package_size: str) -> bool:
+    def validate_package_size(self, package_size: str) -> None:
         """Validates that the given package size exists in the available options.
 
         Args:

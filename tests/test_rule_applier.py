@@ -31,4 +31,6 @@ def test_apply_rules_runs_rules_in_order(
     result = RuleApplier([rule_one, rule_two]).apply_rules(orders, shipping_options)
 
     assert execution_order == ["rule_one", "rule_two"]
+    assert result[0].price is not None
+    assert result[0].reduced_price is not None
     assert result[0].price - result[0].reduced_price == pytest.approx(0.30)
