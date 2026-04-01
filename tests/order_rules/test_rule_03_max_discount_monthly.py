@@ -5,7 +5,7 @@ import pytest
 
 from shipping_price.modules.order import Order
 from shipping_price.modules.shipping_options import ShippingOptions
-from shipping_price.order_rules import rule_03_maximum_discount_10_eur
+from shipping_price.modules.order_rules import rule_03_maximum_discount_10_eur
 
 
 def test_rule_03_applies_partial_discount_when_monthly_cap_hit(

@@ -1,7 +1,7 @@
 from typing import Iterable
 
-from ..modules.order import Order
-from ..modules.shipping_options import ShippingOptions
+from ..order import Order
+from ..shipping_options import ShippingOptions
 
 __all__ = ["rule_02_third_shippment_via_LP_free"]
 

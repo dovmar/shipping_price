@@ -1,7 +1,11 @@
+import logging
 from typing import Iterable
 
 from .order import Order
 from .shipping_options import ShippingOptions
+
+
+LOGGER = logging.getLogger("shipping_price.modules.rule_applier")
 
 
 class RuleApplier:
@@ -38,7 +42,6 @@ class RuleApplier:
         """
         orders_current = orders.copy()
         for rule in self.rules:
-            print(f"Applying rule: {rule.__name__}")
+            LOGGER.info("Applying rule: %s", rule.__name__)
             orders_current = rule(orders_current, shipping_options)
-            print(orders_current)
         return orders_current
