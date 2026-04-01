@@ -1,8 +1,8 @@
-from typing import Iterable
 from datetime import date
+from typing import Iterable
+
+from .order import InvalidOrder, Order
 from .shipping_options import ShippingOptions
-from .order import Order
-from .order import InvalidOrder
 
 
 class FileReader:
@@ -26,7 +26,7 @@ class FileReader:
         Returns:
             Iterable[str]: A list of lines read from the file.
         """
-        with open(self.filename, "r") as file:
+        with open(self.filename) as file:
             lines = file.readlines()
         return lines
 
@@ -124,8 +124,6 @@ class OrdersReader:
                 # Append the instance to the list
                 parsed_orders.append(order_shipping)
             except (ValueError, IndexError):
-                invalid_orders.append(
-                    InvalidOrder(line=line, item_number=item_number)
-                )
+                invalid_orders.append(InvalidOrder(line=line, item_number=item_number))
 
         return parsed_orders, invalid_orders

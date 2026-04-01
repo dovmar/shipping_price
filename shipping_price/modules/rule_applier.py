@@ -1,4 +1,5 @@
 from typing import Iterable
+
 from .order import Order
 from .shipping_options import ShippingOptions
 

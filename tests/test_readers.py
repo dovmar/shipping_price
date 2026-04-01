@@ -41,7 +41,7 @@ def test_orders_reader_raises_when_split_has_more_than_three_items(
     shipping_options: ShippingOptions,
 ) -> None:
     orders_reader = OrdersReader(shipping_options)
-    
+
     lines = ["2015-02-01 S MR EXTRA\n"]
 
     with pytest.raises(ValueError, match="Too many items extracted"):

@@ -1,7 +1,7 @@
 import math
 from typing import Iterable, Union
-from .order import Order
-from .order import InvalidOrder
+
+from .order import InvalidOrder, Order
 
 
 class STDOUTWriter:
@@ -68,7 +68,10 @@ class OrdersWriter:
         elif isinstance(item, Order):
             discount = item.price - item.reduced_price
             discount_str = "-" if math.isclose(discount, 0.0) else f"{discount:.2f}"
-            return f"{item.order_date} {item.package_size} {item.provider} {item.reduced_price:.2f} {discount_str}"
+            return (
+                f"{item.order_date} {item.package_size} {item.provider} "
+                f"{item.reduced_price:.2f} {discount_str}"
+            )
 
         else:
             raise ValueError("Invalid order type for result line formatting.")

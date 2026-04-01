@@ -1,6 +1,4 @@
-import sys
 from datetime import date
-from pathlib import Path
 from typing import Callable
 
 import pytest
@@ -10,15 +8,6 @@ from shipping_price.modules.shipping_options import (
     ShippingOption,
     ShippingOptions,
 )
-
-# Ensure tests can import package modules from the current layout.
-# ROOT = Path(__file__).resolve().parents[1]
-# if str(ROOT) not in sys.path:
-#     sys.path.insert(0, str(ROOT))
-
-# PACKAGE_ROOT = ROOT / "shipping_price"
-# if str(PACKAGE_ROOT) not in sys.path:
-#     sys.path.insert(0, str(PACKAGE_ROOT))
 
 
 @pytest.fixture

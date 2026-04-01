@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import date
+
 from .shipping_options import ShippingOptions
 
 
@@ -62,7 +63,8 @@ class Order:
                 self.reduced_price = option.Price
                 return self.price
         raise ValueError(
-            f"No shipping option found for provider='{self.provider}' and package_size='{self.package_size}'"
+            "No shipping option found for "
+            f"provider='{self.provider}' and package_size='{self.package_size}'"
         )
 
 

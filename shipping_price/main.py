@@ -3,9 +3,10 @@
 
 import sys
 from pathlib import Path
-from modules.shipping_options import ShippingOptions, ShippingOptionsReader
-from modules.readers import OrdersReader, FileReader
+
+from modules.readers import FileReader, OrdersReader
 from modules.rule_applier import RuleApplier
+from modules.shipping_options import ShippingOptions, ShippingOptionsReader
 from modules.writers import OrdersWriter, STDOUTWriter
 from order_rules import rules
 
@@ -31,7 +32,7 @@ def get_input_path() -> Path:
     return script_path
 
 
-def main():
+def main() -> None:
     shipping_options_reader = ShippingOptionsReader()
     shipping_options = ShippingOptions(shipping_options_reader.load_hardcoded_options())
 
