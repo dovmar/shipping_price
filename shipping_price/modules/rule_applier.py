@@ -28,8 +28,7 @@ class RuleApplier:
         """Applies all rules sequentially to the current orders.
 
         Args:
-            orders (Iterable[Order]): The original unmodified orders,
-                used by rules that need to compare against initial prices.
+            orders (Iterable[Order]): The orders to process.
             shipping_options (ShippingOptions): The available shipping options
                 passed to each rule.
 

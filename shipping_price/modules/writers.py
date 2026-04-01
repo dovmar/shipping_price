@@ -34,34 +34,33 @@ class OrdersWriter:
 
     Attributes:
         _orders (Iterable[Order]): The orders after rule application.
-        _orders_original (Iterable[Order]): The original unmodified orders.
+        _invalid_orders (Iterable[InvalidOrder]): The orders that failed validation.
     """
 
     def __init__(
         self, orders: Iterable[Order], invalid_orders: Iterable[InvalidOrder]
     ) -> None:
-        """Initializes the CustomerOrdersWriter.
+        """Initializes the OrdersWriter.
 
         Args:
             orders (Iterable[Order]): The orders after rule application.
-            orders_original (Iterable[Order]): The original unmodified orders
-                used to compute applied discounts.
             invalid_orders (Iterable[InvalidOrder]): The orders that failed validation.
         """
         self._orders = orders
         self._invalid_orders = invalid_orders
 
     def _build_result_line(self, item: Union[InvalidOrder, Order]) -> str:
-        """Formats a single order as an output line with the applied discount.
+        """Formats a single order or invalid order as an output line.
 
         Args:
-            order (Order): The order after rule application.
-            invalid_order (InvalidOrder): The invalid order information.
+            item (Union[InvalidOrder, Order]): The processed order or invalid
+                order to format.
 
         Returns:
-            str: A formatted string with date, package size, provider, final
-                price, and applied discount.
-
+            str: A formatted output line. For valid orders, this includes the
+                date, package size, provider, reduced price, and applied
+                discount. For invalid orders, this returns the original line
+                followed by ``Ignored``.
         """
         if isinstance(item, InvalidOrder):
             return f"{item.line} Ignored"
@@ -75,7 +74,12 @@ class OrdersWriter:
             raise ValueError("Invalid order type for result line formatting.")
 
     def _merge_orders(self) -> Iterable[str]:
-        """Merges valid and invalid orders into a single iterable"""
+        """Merges valid and invalid orders into a single sorted collection.
+
+        Returns:
+            Iterable[Order | InvalidOrder]: Valid and invalid orders sorted by
+                their original item number.
+        """
         combined = []
         for order in self._orders:
             combined.append(order)

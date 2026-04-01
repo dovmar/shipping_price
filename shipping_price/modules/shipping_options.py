@@ -19,10 +19,15 @@ class ShippingOption:
 
 class ShippingOptionsReader:
     def __init__(self) -> None:
+        """Initializes the ShippingOptionsReader."""
         pass
 
     def load_hardcoded_options(self) -> Iterable[ShippingOption]:
-        """Populates the hardcoded shipping options and cached lookup sets."""
+        """Returns the built-in shipping options used by the application.
+
+        Returns:
+            Iterable[ShippingOption]: The default shipping options.
+        """
 
         return [
             ShippingOption(Provider="LP", Package_Size="S", Price=1.50),
@@ -42,18 +47,11 @@ class ShippingOptions:
     """
 
     def __init__(self, items: Iterable[ShippingOption]) -> None:
-        """
-        Initialize a ShippingOptions instance.
+        """Initializes ShippingOptions with the given shipping options.
 
         Args:
-            items: An iterable collection of ShippingOption objects to be managed.
-
-        Attributes:
-            items: Stores the collection of shipping options provided.
-            _distinct_providers: Cached set of unique provider names (lazily initialized).
-            _distinct_package_sizes: Cached set of unique package sizes (lazily initialized).
+            items (Iterable[ShippingOption]): The shipping options to manage.
         """
-        """Initializes ShippingOptions with the given shipping options."""
         self.items: list[ShippingOption] = list(items)
         self._distinct_providers: frozenset[str] = frozenset(
             option.Provider for option in self.items
@@ -69,7 +67,7 @@ class ShippingOptions:
             provider (str): The provider identifier to validate.
 
         Returns:
-            bool: True if the provider is valid.
+            None: Returns nothing when the provider is valid.
 
         Raises:
             ValueError: If the provider is not found in the available options.
@@ -84,7 +82,7 @@ class ShippingOptions:
             package_size (str): The package size to validate.
 
         Returns:
-            bool: True if the package size is valid.
+            None: Returns nothing when the package size is valid.
 
         Raises:
             ValueError: If the package size is not found in the available options.

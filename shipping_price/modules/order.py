@@ -11,7 +11,8 @@ class Order:
         order_date (date): The date the order was placed.
         provider (str): The shipping provider identifier.
         package_size (str): The package size category.
-        price (float): The current price after applying discounts/rules.
+        price (float | None): The base price before discounts are applied.
+        reduced_price (float | None): The current price after discounts/rules.
         item_number (int): The sequential line number from the input file.
     """
 
@@ -25,17 +26,13 @@ class Order:
     def __init__(
         self, order_date: date, provider: str, package_size: str, item_number: int
     ) -> None:
-        """Initializes an Order and computes its initial price.
+        """Initializes an Order without assigning a shipping price.
 
         Args:
             order_date (date): The date the order was placed.
-            provider (str): The shipping provider identifier
+            provider (str): The shipping provider identifier.
             package_size (str): The package size category.
             item_number (int): The sequential line number from the input file.
-
-        Raises:
-            ValueError: If the provider or package size is invalid, or if no
-                matching shipping option is found.
         """
         self.order_date = order_date
         self.provider = provider
@@ -46,6 +43,9 @@ class Order:
 
     def init_price(self, shipping_options: ShippingOptions) -> float:
         """Looks up the base price for this order from the shipping options.
+
+        Args:
+            shipping_options (ShippingOptions): The available shipping options.
 
         Returns:
             float: The base price for the matching provider and package size.
@@ -60,6 +60,10 @@ class Order:
             ):
                 self.price = option.Price
                 self.reduced_price = option.Price
+                return self.price
+        raise ValueError(
+            f"No shipping option found for provider='{self.provider}' and package_size='{self.package_size}'"
+        )
 
 
 @dataclass

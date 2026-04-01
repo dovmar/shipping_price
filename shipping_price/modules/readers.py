@@ -54,7 +54,7 @@ class OrdersReader:
 
     def read_orders_from_file(
         self, file_reader: FileReader
-    ) -> tuple[list[tuple[Order, int]], list[tuple[str, int]]]:
+    ) -> tuple[list[Order], list[InvalidOrder]]:
         """Reads orders from a file and returns parsed and invalid orders.
 
         Args:
@@ -71,7 +71,7 @@ class OrdersReader:
 
     def parse_from_lines(
         self, lines: Iterable[str]
-    ) -> tuple[Iterable[Order], Iterable[InvalidOrder]]:
+    ) -> tuple[list[Order], list[InvalidOrder]]:
         """Parses order lines and separates valid from invalid orders.
 
         Each line is expected to contain space-separated values: date,
@@ -82,38 +82,50 @@ class OrdersReader:
             lines (Iterable[str]): An iterable of strings representing order lines.
 
         Returns:
-            tuple[Iterable[Order], Iterable[InvalidOrder]]: A tuple containing a
+            tuple[list[Order], list[InvalidOrder]]: A tuple containing a
                 list of successfully parsed Order objects and a list of InvalidOrder
                 objects for lines that failed validation.
+
+        Raises:
+            ValueError: If a line contains more than three space-separated items.
         """
-        parsed_orders: list[tuple[Order, int]] = []
-        invalid_orders: list[tuple[str, int]] = []
+        parsed_orders: list[Order] = []
+        invalid_orders: list[InvalidOrder] = []
 
         # Process each line
         for item_number, line in enumerate(lines):
+            line = line.strip()  # Remove leading/trailing whitespace
+            if not line:  # Skip empty lines
+                continue
+
+            parts = line.split()
+            if len(parts) > 3:
+                raise ValueError(
+                    f"Too many items extracted from line {item_number}: '{line}'"
+                )
+
             try:
-                line = line.strip()  # Remove leading/trailing whitespace
-                if line:  # Skip empty lines
-                    # Split the line into components
-                    date_str, package_size, provider = line.split()
-                    date_obj = date.fromisoformat(date_str)
-                    self._shipping_options.validate_provider(provider)
-                    self._shipping_options.validate_package_size(package_size)
+                # Split the line into components
+                date_str, package_size, provider = parts
 
-                    # Create a Order instance
-                    order_shipping = Order(
-                        order_date=date_obj,
-                        provider=provider,
-                        package_size=package_size,
-                        item_number=item_number,
-                    )
-                    order_shipping.init_price(self._shipping_options)
+                date_obj = date.fromisoformat(date_str)
+                self._shipping_options.validate_provider(provider)
+                self._shipping_options.validate_package_size(package_size)
 
-                    # Append the instance to the list
-                    parsed_orders.append(order_shipping)
+                # Create a Order instance
+                order_shipping = Order(
+                    order_date=date_obj,
+                    provider=provider,
+                    package_size=package_size,
+                    item_number=item_number,
+                )
+                order_shipping.init_price(self._shipping_options)
+
+                # Append the instance to the list
+                parsed_orders.append(order_shipping)
             except (ValueError, IndexError):
                 invalid_orders.append(
-                    InvalidOrder(line=line.strip(), item_number=item_number)
+                    InvalidOrder(line=line, item_number=item_number)
                 )
 
         return parsed_orders, invalid_orders

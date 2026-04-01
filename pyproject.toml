@@ -1,15 +1,17 @@
-[tool.ruff]
-line-length = 88  # Maximum line length (default is 88)
-[tool.poetry]
-name = "my_project"
+[project]
+name = "shipping_price"
 version = "0.1.0"
-description = "A short description of my project"
-[tool.poetry.dependencies]
-python = ">=3.8,<4.0"
-[tool.poetry.group.dev.dependencies]
-pytest = "^6.0"
-black = "^22.0"
-ruff = "^0.0.282"
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+description = ""
+readme = "README.md"
+requires-python = ">=3.8,<4.0"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.0.282",
+]
+
+[tool.ruff]
+line-length = 88

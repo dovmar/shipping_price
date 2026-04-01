@@ -1,4 +1,4 @@
-from shipping.order_rules import rules
+from shipping_price.order_rules import rules
 
 
 def test_rules_collection_contains_expected_rules() -> None:
