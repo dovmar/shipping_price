@@ -3,19 +3,23 @@ name = "shipping_price"
 version = "0.1.0"
 description = ""
 readme = "README.md"
-requires-python = ">=3.8,<4.0"
+requires-python = "==3.13.3"
 dependencies = []
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "pytest>=6.0",
     "pytest-cov>=4.0",
     "ruff>=0.0.282",
 ]
 
+[tool.uv]
+package = false
+default-groups = ["dev"]
+
 [tool.ruff]
 line-length = 88
-target-version = "py38"
+target-version = "py313"
 
 [tool.ruff.lint]
 select = [
