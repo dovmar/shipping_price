@@ -4,7 +4,7 @@ A Python application for processing shipping orders and applying discount rules.
 
 ## Requirements
 
-- Python `3.13.3` (pinned)
+- Python `3.13` (pinned)
 - `uv`
 
 ## Environment Setup

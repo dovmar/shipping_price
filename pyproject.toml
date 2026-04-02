@@ -3,7 +3,7 @@ name = "shipping_price"
 version = "0.1.0"
 description = ""
 readme = "README.md"
-requires-python = "==3.13.3"
+requires-python = "==3.13.*"
 dependencies = []
 
 [dependency-groups]
@@ -16,6 +16,7 @@ dev = [
 
 [tool.uv]
 package = false
+default-groups = []
 
 [tool.ruff]
 line-length = 88
